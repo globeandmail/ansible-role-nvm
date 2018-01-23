@@ -1,0 +1,28 @@
+---
+- name: Abort if not Debian
+  fail:
+      msg: "Currently this role only supports Debian-based systems"
+  when: ansible_os_family|lower != 'debian'
+
+- name: Install NVM globally
+  shell: curl -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | NVM_DIR=/usr/local/nvm bash
+  args:
+    creates: /usr/local/nvm
+
+- name: Create /etc/profile.d/nvm.sh
+  copy:
+    src: nvm.sh
+    dest: /etc/profile.d/nvm.sh
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Install LTS
+  shell: . /etc/profile.d/nvm.sh > /dev/null && nvm install --lts
+  args:
+    creates: /usr/local/nvm/versions/node
+  register: install_node_lts
+
+- name: Use LTS
+  shell: . /etc/profile.d/nvm.sh > /dev/null && nvm use --lts
+  when: install_node_lts.changed
