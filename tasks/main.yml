@@ -12,7 +12,7 @@
 - name: Install NVM globally
   shell: curl -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | NVM_DIR=/usr/local/nvm bash
   args:
-    creates: /usr/local/nvm
+    creates: /usr/local/nvm/nvm.sh
 
 - name: Create /etc/profile.d/nvm.sh
   copy:
