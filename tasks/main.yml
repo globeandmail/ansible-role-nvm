@@ -31,3 +31,11 @@
 - name: Use LTS
   shell: . /etc/profile.d/nvm.sh > /dev/null && nvm use --lts
   when: install_node_lts.changed
+
+- name: Use LTS
+  shell: . /etc/profile.d/nvm.sh > /dev/null && nvm install 10.18.0
+  when: install_node_lts.changed
+
+- name: Use LTS
+  shell: . /etc/profile.d/nvm.sh > /dev/null && nvm use 10.18.0
+  when: install_node_lts.changed
